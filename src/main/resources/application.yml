@@ -1,0 +1,26 @@
+server:
+  port: 0
+
+spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+  cloud:
+    stream:
+      default:
+        contentType: application/json
+      bindings:
+        ingestion-command:
+          destination: movie-ingestion-command
+          group: command-queue
+          producer:
+            declare-exchange: false
+            routing-key-expression: headers['routeTo']
+        ingestion-event:
+          destination: movie-ingestion-event
+          group: event-queue
+          producer:
+            declare-exchange: false
+            routing-key-expression: headers['routeTo']
